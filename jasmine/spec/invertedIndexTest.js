@@ -1,5 +1,9 @@
 describe('Read book data', function() {
 
+  beforeEach(function () {
+   var books = getBooks();
+  });
+  
   it('should be truthy', function() {
     expect(books).toBeTruthy();
   });
@@ -14,52 +18,46 @@ describe('Read book data', function() {
 
 });
 
-describe('Read book data', function() {
+describe('Populate Index', function() {
 
-  it('should confirm that the array has the correct index number', function() {
-    expect(books.length).toEqual(2);
+  beforeEach(function () {
+   var getIndex = indexChild.createIndex();
   });
 
-  it('should match index[0] to the first element/object in the array', function() {
-    expect(books[0]).toEqual(jasmine.objectContaining({ 
-      "title": "Alice in Wonderland",
-      "text": "Alice falls into a rabbit hole and enters a world full of imagination."
-    }));
+  it('should verify that the index is created once the JSON file has been read', function() {
+    expect(getIndex).toBeDefined();
   });
 
-  it('should match index[1] to the second element/object in the array', function() {
-    expect(books[1]).toEqual(jasmine.objectContaining({ 
-      "title": "The Lord of the Rings: The Fellowship of the Ring.",
-      "text": "An unusual alliance of man, elf, dwarf, wizard and hobbit seek to destroy a powerful ring."
-    }));
+  it('should ensure that index is correct', function() {
+    expect(getIndex.rabbit).toEqual([0]);
   });
 
-  it('should maps the string keys to the correct objects in the JSON array', function() {
-    expect(books[0].title).toEqual("Alice in Wonderland");
+  it('should ensure that index is correct', function() {
+    expect(getIndex.man).toEqual([1]);
   });
 
   it('should maps the string keys to the correct objects in the JSON array', function() {
-    expect(books[1].text).toEqual("An unusual alliance of man, elf, dwarf, wizard and hobbit seek to destroy a powerful ring.");
+    expect(books[0].title).toEqual('Alice in Wonderland');
   });
 
 });
 
-describe('Search index', function() {
+describe('Search Index', function() {
   
   it('should return an array of indices of the correct objects that contain the searched words', function() {
-    expect(Index.prototype.searchIndex('and')).toEqual([0, 1]);
+    expect(Index.prototype.searchIndex(['and'])).toEqual([ [ 0, 1 ] ]);
   });
 
   it('should return an array of the index of the correct object that contain the searched word', function() {
-    expect(Index.prototype.searchIndex('alice')).toEqual([0]);
+    expect(Index.prototype.searchIndex(['alice'])).toEqual([ [ 0 ] ]);
   });
 
-  it('should return an array of the index of the correct object that contain the searched word', function() {
-    expect(Index.prototype.searchIndex('lord')).toEqual([1]);
+  it('should return an appropriate message if searched word is not in the book', function() {
+    expect(Index.prototype.searchIndex(['andela'])).toEqual([ 'Word Not Found!' ]);
   });
 
-  it('should not return an array of indices if the word is not found', function() {
-    expect(Index.prototype.searchIndex('andela')).toEqual('Not In Any Document');
+  it('should take an array of search terms and return the correct indices of each word', function() {
+    expect(Index.prototype.searchIndex(['hole', 'andela', 'of'])).toEqual([ [ 0 ], 'Word Not Found!', [ 0, 1 ] ]);
   });
 
 });
