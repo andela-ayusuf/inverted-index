@@ -1,9 +1,6 @@
 describe('Read book data', function() {
+  var books = indexChild.getBooks('books.json');
 
-  beforeEach(function () {
-   var books = getBooks();
-  });
-  
   it('should be truthy', function() {
     expect(books).toBeTruthy();
   });
@@ -15,14 +12,11 @@ describe('Read book data', function() {
   it('should have a data-type of object', function() {
     expect(books).toEqual(jasmine.any(Object));
   });
-
 });
 
 describe('Populate Index', function() {
-
-  beforeEach(function () {
-   var getIndex = indexChild.createIndex();
-  });
+  var getIndex = indexChild.createIndex('books.json'),
+  books = indexChild.getBooks('books.json');
 
   it('should verify that the index is created once the JSON file has been read', function() {
     expect(getIndex).toBeDefined();
@@ -39,11 +33,9 @@ describe('Populate Index', function() {
   it('should maps the string keys to the correct objects in the JSON array', function() {
     expect(books[0].title).toEqual('Alice in Wonderland');
   });
-
 });
 
 describe('Search Index', function() {
-  
   it('should return an array of indices of the correct objects that contain the searched words', function() {
     expect(Index.prototype.searchIndex(['and'])).toEqual([ [ 0, 1 ] ]);
   });
@@ -59,5 +51,4 @@ describe('Search Index', function() {
   it('should take an array of search terms and return the correct indices of each word', function() {
     expect(Index.prototype.searchIndex(['hole', 'andela', 'of'])).toEqual([ [ 0 ], 'Word Not Found!', [ 0, 1 ] ]);
   });
-
 });
