@@ -1,3 +1,5 @@
+var indexChild = new Index();
+ 
 describe('Read book data', function() {
   var books = indexChild.getBooks('books.json');
 
@@ -12,21 +14,26 @@ describe('Read book data', function() {
   it('should have a data-type of object', function() {
     expect(books).toEqual(jasmine.any(Object));
   });
+
+  it('should ensure the array is not empty', function() {
+    expect(books.length).not.toEqual(0);
+  });
 });
 
 describe('Populate Index', function() {
-  var index = indexChild.createIndex('books.json');
+  indexChild.createIndex('books.json');
+  var indexObj = indexChild.getIndex();
 
   it('should verify that the index is created once the JSON file has been read', function() {
-    expect(index).toBeDefined();
+    expect(indexObj).toBeDefined();
   });
 
   it('should ensure that index is correct', function() {
-    expect(index.rabbit).toEqual([0]);
+    expect(indexObj['rabbit']).toEqual([0]);
   });
 
   it('should ensure that index is correct', function() {
-    expect(index.man).toEqual([1]);
+    expect(indexObj['man']).toEqual([1]);
   });
 });
 
