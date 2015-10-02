@@ -49,8 +49,8 @@ Index.prototype.createIndex = function(filePath) {
 };
 
 // method to get the index of a word
-Index.prototype.getIndex = function (filePath) {
-  return this.createIndex(filePath); 
+Index.prototype.getIndex = function () {
+  return this.indexObj; 
 };
 
 // method to search the index for specific word(s)
@@ -69,5 +69,3 @@ Index.prototype.searchIndex = function (terms) {
   return searchArr;
 };
 
-// new instance of Index
-var indexChild = new Index();
